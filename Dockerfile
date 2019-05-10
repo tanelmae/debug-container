@@ -8,7 +8,7 @@ FROM alpine:latest
 RUN apk add --no-cache --update \
   curl wget bash nmap bind-tools nano \
   jq netcat-openbsd iputils mtr \
-  busybox-extras grep sed
+  busybox-extras grep sed speedtest
 
 COPY --from=go-builder /go/bin/grpcurl /bin/grpcurl
 COPY bashrc /root/.bashrc
