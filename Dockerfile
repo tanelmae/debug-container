@@ -1,9 +1,9 @@
-FROM golang:1.13.5-alpine3.10 AS go-builder
+FROM golang:1.14.3-alpine3.11 AS go-builder
 RUN apk add --no-cache --update git
 RUN go get github.com/fullstorydev/grpcurl
 RUN go install github.com/fullstorydev/grpcurl/cmd/grpcurl
 
-FROM alpine:3.11.2
+FROM alpine:3.11.6
 
 RUN apk add --no-cache --update \
 	curl wget bash nmap bind-tools nano \
