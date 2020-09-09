@@ -4,7 +4,7 @@ RUN apk add --no-cache --update \
 	curl wget bash nmap bind-tools nano \
 	jq netcat-openbsd iputils mtr openssl \
 	busybox-extras grep sed speedtest-cli \
-	iptables
+	iptables postgresql-client
 
 RUN curl -L https://github.com/fullstorydev/grpcurl/releases/download/v1.7.0/grpcurl_1.7.0_linux_x86_64.tar.gz \
 	| tar xvz -C /bin
