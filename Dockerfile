@@ -1,9 +1,4 @@
-FROM golang:1.14.3-alpine3.11 AS go-builder
-RUN apk add --no-cache --update git
-RUN go get github.com/fullstorydev/grpcurl
-RUN go install github.com/fullstorydev/grpcurl/cmd/grpcurl
-
-FROM alpine:3.11.6
+FROM alpine:3.12
 
 RUN apk add --no-cache --update \
 	curl wget bash nmap bind-tools nano \
@@ -11,9 +6,11 @@ RUN apk add --no-cache --update \
 	busybox-extras grep sed speedtest-cli \
 	iptables
 
+RUN curl -L https://github.com/fullstorydev/grpcurl/releases/download/v1.7.0/grpcurl_1.7.0_linux_x86_64.tar.gz \
+	| tar xvz -C /bin
+
 RUN curl -L https://github.com/vi/websocat/releases/download/v1.5.0/websocat_amd64-linux-static \
 	-o /bin/websocat && chmod +x /bin/websocat
 
-COPY --from=go-builder /go/bin/grpcurl /bin/grpcurl
 COPY bashrc /root/.bashrc
 ENTRYPOINT [ "/bin/bash" ]
