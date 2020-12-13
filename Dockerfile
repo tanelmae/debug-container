@@ -1,8 +1,8 @@
-FROM alpine:3.12
+FROM alpine:3.12.2
 
 RUN apk add --no-cache --update \
-	curl wget bash nmap bind-tools nano \
-	jq netcat-openbsd iputils mtr openssl \
+	curl wget bash nmap nmap-scripts bind-tools nano \
+	jq netcat-openbsd iputils mtr openssl gnutls-utils \
 	busybox-extras grep sed speedtest-cli \
 	iptables postgresql-client
 
