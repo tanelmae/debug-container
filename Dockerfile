@@ -7,11 +7,11 @@ ENV NALI 0.2.3
 ENV KUBECTL 1.19.6
 ENV KUBE_PS1 0.7.0
 
-RUN apk add --no-cache --update \
+RUN apk add --no-cache --update bash-completion \
 	curl wget bash nmap nmap-scripts bind-tools nano \
 	jq netcat-openbsd iputils mtr openssl gnutls-utils \
 	busybox-extras grep sed speedtest-cli \
-	iptables postgresql-client
+	iptables postgresql-client && mkdir -p /etc/bash_completion.d
 
 WORKDIR /root
 # grpcurl
@@ -32,7 +32,8 @@ RUN curl -L "https://github.com/zu1k/nali/releases/download/v${NALI}/nali-linux-
 
 # kubectl
 RUN curl -L "https://dl.k8s.io/release/v${KUBECTL}/bin/linux/amd64/kubectl" \
-	-o /usr/bin/kubectl && chmod +x /usr/bin/kubectl
+	-o /usr/bin/kubectl && chmod +x /usr/bin/kubectl && \
+	/usr/bin/kubectl completion bash > /etc/bash_completion.d/kubectl
 
 # kube-ps1
 RUN curl -L "https://github.com/jonmosco/kube-ps1/archive/refs/tags/v${KUBE_PS1}.zip" \

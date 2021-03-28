@@ -87,3 +87,7 @@ function kns() {
 
 source /opt/kube-ps1/kube-ps1.sh
 export PS1='[\u@\h \W $(kube_ps1)]\$ '
+
+alias k=kubectl
+source /etc/profile.d/bash_completion.sh
+complete -F __start_kubectl k
