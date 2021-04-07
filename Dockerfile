@@ -10,7 +10,7 @@ ENV KUBE_PS1 0.7.0
 RUN apk add --no-cache --update bash-completion \
 	curl wget bash nmap nmap-scripts bind-tools nano \
 	jq netcat-openbsd iputils mtr openssl gnutls-utils \
-	busybox-extras grep sed speedtest-cli \
+	busybox-extras grep sed speedtest-cli redis \
 	iptables postgresql-client && mkdir -p /etc/bash_completion.d
 
 WORKDIR /root
