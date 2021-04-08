@@ -6,11 +6,12 @@ ENV ETHR 1.0.0
 ENV NALI 0.2.3
 ENV KUBECTL 1.19.6
 ENV KUBE_PS1 0.7.0
+ENV REDLI 0.5.2
 
 RUN apk add --no-cache --update bash-completion \
 	curl wget bash nmap nmap-scripts bind-tools nano \
 	jq netcat-openbsd iputils mtr openssl gnutls-utils \
-	busybox-extras grep sed speedtest-cli redis \
+	busybox-extras grep sed speedtest-cli redis stunnel \
 	iptables postgresql-client && mkdir -p /etc/bash_completion.d
 
 WORKDIR /root
@@ -39,6 +40,10 @@ RUN curl -L "https://dl.k8s.io/release/v${KUBECTL}/bin/linux/amd64/kubectl" \
 RUN curl -L "https://github.com/jonmosco/kube-ps1/archive/refs/tags/v${KUBE_PS1}.zip" \
 	-o kube-ps1.zip && unzip kube-ps1.zip -d /opt && rm kube-ps1.zip && \
 	mv "/opt/kube-ps1-${KUBE_PS1}" /opt/kube-ps1
+
+# redli
+RUN curl -L "https://github.com/IBM-Cloud/redli/releases/download/v${REDLI}/redli_${REDLI}_darwin_amd64.tar.gz" \
+	| tar xvz -C /usr/bin
 
 COPY bashrc /root/.bashrc
 ENTRYPOINT [ "/bin/bash" ]
