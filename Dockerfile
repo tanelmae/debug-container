@@ -1,12 +1,15 @@
-FROM alpine:3.12.2
+FROM alpine:3.13
 
-ENV GRPCULR 1.8.0
-ENV WEBSOCAT 1.7.0
+ENV GRPCULR 1.8.5
+ENV WEBSOCAT 1.9.0
 ENV ETHR 1.0.0
-ENV NALI 0.2.3
-ENV KUBECTL 1.19.6
+ENV NALI 0.3.2
+ENV KUBECTL 1.21.6
 ENV KUBE_PS1 0.7.0
 ENV REDLI 0.5.2
+
+RUN apk add --upgrade apk-tools && \
+	apk upgrade --available
 
 RUN apk add --no-cache --update bash-completion \
 	curl wget bash nmap nmap-scripts bind-tools nano \
