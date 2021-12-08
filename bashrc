@@ -11,11 +11,11 @@ alias free='free -m'
 alias more=less
 
 function test-tls() {
-    openssl s_client -state -nbio -connect "${1}:${2}"
+	openssl s_client -state -nbio -connect "${1}:${2}"
 }
 
 function test-tcp() {
-    nc -z -v "${1}" "${2}"
+	nc -z -v "${1}" "${2}"
 }
 
 function kctx() {
@@ -91,3 +91,17 @@ export PS1='[\u@\h \W $(kube_ps1)]\$ '
 alias k=kubectl
 source /etc/profile.d/bash_completion.sh
 complete -F __start_kubectl k
+
+source /opt/asdf/asdf.sh
+source /opt/asdf/completions/asdf.bash
+source /opt/google-cloud-sdk/completion.bash.inc
+
+function asdf-install() {
+	local TOOL=${1}
+	local VERSION=${2}
+	echo "Installing ${TOOL} version ${VERSION}"
+
+	asdf plugin add ${TOOL}
+	asdf install ${TOOL} ${VERSION}
+	asdf global ${TOOL} ${VERSION}
+}

@@ -1,52 +1,52 @@
-FROM alpine:3.13
+FROM golang:alpine3.15
 
-ENV GRPCULR 1.8.5
-ENV WEBSOCAT 1.9.0
+ARG TARGETARCH
+
+ENV REDLI 0.5.2
 ENV ETHR 1.0.0
-ENV NALI 0.3.2
 ENV KUBECTL 1.21.6
 ENV KUBE_PS1 0.7.0
-ENV REDLI 0.5.2
+ENV ASDF 0.8.1
+ENV VAULT 1.8.5
+ENV GRPCURL 1.8.5
+ENV GCLOUD 366.0.0
 
+RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk add --upgrade apk-tools && \
 	apk upgrade --available
 
-RUN apk add --no-cache --update bash-completion \
-	curl wget bash nmap nmap-scripts bind-tools nano \
+RUN apk add --no-cache --update bash bash-completion git \
+	curl wget nmap nmap-scripts bind-tools nano python3 py3-pip \
 	jq netcat-openbsd iputils mtr openssl gnutls-utils \
-	busybox-extras grep sed speedtest-cli redis stunnel \
-	iptables postgresql-client && mkdir -p /etc/bash_completion.d
+	busybox-extras grep sed speedtest-cli redis stunnel openrc \
+	iptables postgresql-client mysql-client websocat lynis@testing && \
+	mkdir -p /etc/bash_completion.d
 
 WORKDIR /root
-# grpcurl
-RUN curl -L "https://github.com/fullstorydev/grpcurl/releases/download/v${GRPCULR}/grpcurl_${GRPCULR}_linux_x86_64.tar.gz" \
-	| tar xvz -C /usr/bin
+COPY bashrc /root/.bashrc
 
-# websocat
-RUN curl -L "https://github.com/vi/websocat/releases/download/v${WEBSOCAT}/websocat_amd64-linux-static" \
-	-o /usr/bin/websocat && chmod +x /usr/bin/websocat
+RUN go install github.com/IBM-Cloud/redli@v${REDLI}
 
-# ethr
-RUN wget "https://github.com/microsoft/ethr/releases/download/v${ETHR}/ethr_linux.zip" && \
-	unzip ethr_linux.zip && rm ethr_linux.zip && mv ethr /usr/bin/ethr
+COPY install-* ./
 
-# nali
-RUN curl -L "https://github.com/zu1k/nali/releases/download/v${NALI}/nali-linux-amd64-v${NALI}.gz" \
-	| gunzip -c > /usr/bin/nali && chmod +x /usr/bin/nali
+RUN ./install-grpcurl.sh ${GRPCURL}
+RUN ./install-aws.sh
 
-# kubectl
-RUN curl -L "https://dl.k8s.io/release/v${KUBECTL}/bin/linux/amd64/kubectl" \
-	-o /usr/bin/kubectl && chmod +x /usr/bin/kubectl && \
-	/usr/bin/kubectl completion bash > /etc/bash_completion.d/kubectl
+RUN ./install-gcloud.sh /opt/google-cloud-sdk ${GCLOUD}
+ENV PATH "/opt/google-cloud-sdk/bin:$PATH"
+
+# asdf
+COPY asdf-global.sh /bin/asdf-global
+RUN curl -L https://github.com/asdf-vm/asdf/archive/refs/tags/v${ASDF}.tar.gz \
+	| tar xvz -C /opt && mv "/opt/asdf-${ASDF}" /opt/asdf
+
+# Only use asdf when plugin has multi-arch support
+RUN asdf-global kubectl ${KUBECTL}
+RUN asdf-global vault ${VAULT}
 
 # kube-ps1
 RUN curl -L "https://github.com/jonmosco/kube-ps1/archive/refs/tags/v${KUBE_PS1}.zip" \
 	-o kube-ps1.zip && unzip kube-ps1.zip -d /opt && rm kube-ps1.zip && \
 	mv "/opt/kube-ps1-${KUBE_PS1}" /opt/kube-ps1
 
-# redli
-RUN curl -L "https://github.com/IBM-Cloud/redli/releases/download/v${REDLI}/redli_${REDLI}_darwin_amd64.tar.gz" \
-	| tar xvz -C /usr/bin
-
-COPY bashrc /root/.bashrc
 ENTRYPOINT [ "/bin/bash" ]
