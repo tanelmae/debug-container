@@ -37,16 +37,16 @@ ENV PATH "/opt/google-cloud-sdk/bin:$PATH"
 
 # asdf
 COPY asdf-global.sh /bin/asdf-global
-RUN curl -L https://github.com/asdf-vm/asdf/archive/refs/tags/v${ASDF}.tar.gz \
-	| tar xvz -C /opt && mv "/opt/asdf-${ASDF}" /opt/asdf
+RUN curl -sL https://github.com/asdf-vm/asdf/archive/refs/tags/v${ASDF}.tar.gz \
+	| tar xz -C /opt && mv "/opt/asdf-${ASDF}" /opt/asdf
 
 # Only use asdf when plugin has multi-arch support
 RUN asdf-global kubectl ${KUBECTL}
 RUN asdf-global vault ${VAULT}
 
 # kube-ps1
-RUN curl -L "https://github.com/jonmosco/kube-ps1/archive/refs/tags/v${KUBE_PS1}.zip" \
-	-o kube-ps1.zip && unzip kube-ps1.zip -d /opt && rm kube-ps1.zip && \
+RUN curl -sL "https://github.com/jonmosco/kube-ps1/archive/refs/tags/v${KUBE_PS1}.zip" \
+	-o kube-ps1.zip && unzip -q kube-ps1.zip -d /opt && rm kube-ps1.zip && \
 	mv "/opt/kube-ps1-${KUBE_PS1}" /opt/kube-ps1
 
 ENTRYPOINT [ "/bin/bash" ]

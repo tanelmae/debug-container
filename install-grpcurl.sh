@@ -9,4 +9,4 @@ fi
 
 LINK="https://github.com/fullstorydev/grpcurl/releases/download/v${1}/grpcurl_${1}_linux_${GRPCURL_ARCH}.tar.gz"
 echo ${LINK}
-curl -L ${LINK} | tar xvz -C /usr/local/bin
+curl -sL ${LINK} | tar xz -C /usr/local/bin

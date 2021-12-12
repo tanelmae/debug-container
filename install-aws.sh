@@ -9,8 +9,8 @@ else
 	DOWNLOAD_ARCH="x86_64"
 fi
 
-curl "https://awscli.amazonaws.com/awscli-exe-linux-${DOWNLOAD_ARCH}.zip" -o "${ARCHIVE}"
+curl -s "https://awscli.amazonaws.com/awscli-exe-linux-${DOWNLOAD_ARCH}.zip" -o "${ARCHIVE}"
 
-unzip "${ARCHIVE}"
+unzip -q "${ARCHIVE}"
 ./aws/install
 rm -Rf ./aws

@@ -16,7 +16,7 @@ LINK="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sd
 echo "${LINK}"
 
 mkdir -p "${DOWNLOAD_PATH}"
-curl -L "${LINK}" | tar xvz -C "${DOWNLOAD_PATH}" --strip 1
+curl -sL "${LINK}" | tar xz -C "${DOWNLOAD_PATH}" --strip 1
 
 "${DOWNLOAD_PATH}/bin/gcloud" components install --quiet \
 	alpha beta gsutil core docker-credential-gcr
