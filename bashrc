@@ -10,6 +10,10 @@ alias df='df -h'
 alias free='free -m'
 alias more=less
 
+if [ -f /etc/bash_completion ]; then
+	. /etc/bash_completion
+fi
+
 function test-tls() {
 	openssl s_client -state -nbio -connect "${1}:${2}"
 }

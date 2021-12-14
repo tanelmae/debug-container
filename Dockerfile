@@ -15,7 +15,7 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/ap
 RUN apk add --upgrade apk-tools && \
 	apk upgrade --available
 
-RUN apk add --no-cache --update bash bash-completion git \
+RUN apk add --no-cache --update bash bash-completion git libc6-compat \
 	curl wget nmap nmap-scripts bind-tools nano python3 py3-pip \
 	jq netcat-openbsd iputils mtr openssl gnutls-utils \
 	busybox-extras grep sed speedtest-cli redis stunnel openrc \
@@ -31,6 +31,7 @@ COPY install-* ./
 
 RUN ./install-grpcurl.sh ${GRPCURL}
 RUN ./install-aws.sh
+RUN ./install-micro.sh
 
 RUN ./install-gcloud.sh /opt/google-cloud-sdk ${GCLOUD}
 ENV PATH "/opt/google-cloud-sdk/bin:$PATH"
