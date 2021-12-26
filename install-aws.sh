@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ARCHIVE="awscliv2.zip"
+CLI_VERSION=${1}
 
 echo "Arch: ${TARGETARCH}"
 if [ "${TARGETARCH}" = "arm64" ]; then
@@ -9,8 +9,6 @@ else
 	DOWNLOAD_ARCH="x86_64"
 fi
 
-curl -s "https://awscli.amazonaws.com/awscli-exe-linux-${DOWNLOAD_ARCH}.zip" -o "${ARCHIVE}"
-
-unzip -q "${ARCHIVE}"
-./aws/install
-rm -Rf ./aws
+curl -sL \
+	"https://github.com/simnalamburt/awscliv2.appimage/releases/download/v${CLI_VERSION}/aws-${DOWNLOAD_ARCH}.AppImage" \
+	-o /usr/local/bin/aws && chmod +x /usr/local/bin/aws

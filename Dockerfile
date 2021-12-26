@@ -10,6 +10,7 @@ ENV ASDF 0.8.1
 ENV VAULT 1.8.5
 ENV GRPCURL 1.8.5
 ENV GCLOUD 366.0.0
+ENV AWS_CLI 2.4.7
 
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk add --upgrade apk-tools && \
@@ -30,7 +31,7 @@ RUN go install github.com/IBM-Cloud/redli@v${REDLI}
 COPY install-* ./
 
 RUN ./install-grpcurl.sh ${GRPCURL}
-RUN ./install-aws.sh
+RUN ./install-aws.sh ${AWS_CLI}
 RUN ./install-micro.sh
 
 RUN ./install-gcloud.sh /opt/google-cloud-sdk ${GCLOUD}
