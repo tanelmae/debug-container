@@ -10,7 +10,6 @@ ENV ASDF 0.11.2
 ENV VAULT 1.8.5
 ENV GRPCURL 1.8.7
 ENV GCLOUD 420.0.0
-ENV AWS_CLI 2.11.0
 
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk add --upgrade apk-tools && \
@@ -19,7 +18,7 @@ RUN apk add --upgrade apk-tools && \
 RUN apk add --no-cache --update bash bash-completion git libc6-compat \
 	curl wget nmap nmap-scripts bind-tools nano python3 py3-pip \
 	jq netcat-openbsd iputils mtr openssl openssh gnutls-utils \
-	busybox-extras grep sed speedtest-cli redis stunnel openrc \
+	busybox-extras grep sed speedtest-cli redis stunnel openrc aws-cli \
 	iptables postgresql-client mysql-client websocat lynis@testing && \
 	mkdir -p /etc/bash_completion.d
 
@@ -31,7 +30,6 @@ RUN go install github.com/IBM-Cloud/redli@v${REDLI}
 COPY install-* ./
 
 RUN ./install-grpcurl.sh ${GRPCURL}
-RUN ./install-aws.sh ${AWS_CLI}
 RUN ./install-micro.sh
 
 RUN ./install-gcloud.sh /opt/google-cloud-sdk ${GCLOUD}
