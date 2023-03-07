@@ -18,7 +18,7 @@ RUN apk add --upgrade apk-tools && \
 
 RUN apk add --no-cache --update bash bash-completion git libc6-compat \
 	curl wget nmap nmap-scripts bind-tools nano python3 py3-pip \
-	jq netcat-openbsd iputils mtr openssl gnutls-utils \
+	jq netcat-openbsd iputils mtr openssl openssh gnutls-utils \
 	busybox-extras grep sed speedtest-cli redis stunnel openrc \
 	iptables postgresql-client mysql-client websocat lynis@testing && \
 	mkdir -p /etc/bash_completion.d
