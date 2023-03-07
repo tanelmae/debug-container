@@ -1,16 +1,16 @@
-FROM golang:alpine3.15
+FROM golang:alpine
 
 ARG TARGETARCH
 
-ENV REDLI 0.5.2
+ENV REDLI 0.7.0
 ENV ETHR 1.0.0
 ENV KUBECTL 1.21.6
-ENV KUBE_PS1 0.7.0
-ENV ASDF 0.8.1
+ENV KUBE_PS1 0.8.0
+ENV ASDF 0.11.2
 ENV VAULT 1.8.5
-ENV GRPCURL 1.8.5
-ENV GCLOUD 366.0.0
-ENV AWS_CLI 2.4.7
+ENV GRPCURL 1.8.7
+ENV GCLOUD 420.0.0
+ENV AWS_CLI 2.11.0
 
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk add --upgrade apk-tools && \
