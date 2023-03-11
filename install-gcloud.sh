@@ -20,3 +20,5 @@ curl -sL "${LINK}" | tar xz -C "${DOWNLOAD_PATH}" --strip 1
 
 "${DOWNLOAD_PATH}/bin/gcloud" components install --quiet \
 	alpha beta gsutil core docker-credential-gcr
+
+${DOWNLOAD_PATH}/bin/gcloud components update --quiet
