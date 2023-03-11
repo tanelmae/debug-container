@@ -120,16 +120,12 @@ function ex() {
 	fi
 }
 
-source /opt/kube-ps1/kube-ps1.sh
-export PS1='[\u@\h \W $(kube_ps1)]\$ '
-
 alias k=kubectl
 source /etc/profile.d/bash_completion.sh
 complete -F __start_kubectl k
 
 source /opt/asdf/asdf.sh
 source /opt/asdf/completions/asdf.bash
-source /opt/google-cloud-sdk/completion.bash.inc
 
 function asdf-install() {
 	local TOOL=${1}
@@ -139,4 +135,30 @@ function asdf-install() {
 	asdf plugin add ${TOOL}
 	asdf install ${TOOL} ${VERSION}
 	asdf global ${TOOL} ${VERSION}
+}
+
+function install-gcloud() {
+	local VERSION=${1}
+	if [[ -z $VERSION ]]; then
+		VERSION="latest"
+	fi
+	echo "Installing gcloud version ${VERSION}"
+
+	curl https://sdk.cloud.google.com | bash
+}
+
+function install-kubectl() {
+	local VERSION=${1}
+	if [[ -z $VERSION ]]; then
+		VERSION="latest"
+	fi
+	asdf-install kubectl ${VERSION}
+}
+
+function install-vault() {
+	local VERSION=${1}
+	if [[ -z $VERSION ]]; then
+		VERSION="latest"
+	fi
+	asdf-install vault ${VERSION}
 }
