@@ -17,7 +17,7 @@ RUN apk add --no-cache --update bash bash-completion git libc6-compat \
 	curl wget nmap nmap-scripts bind-tools nano python3 py3-pip micro \
 	jq netcat-openbsd iputils mtr openssl openssh gnutls-utils grpcurl@testing \
 	busybox-extras grep sed speedtest-cli redis stunnel openrc aws-cli \
-	iptables postgresql-client mysql-client websocat lynis@testing && \
+	iptables postgresql-client mysql-client websocat lynis@testing bzip2 p7zip && \
 	mkdir -p /etc/bash_completion.d
 
 COPY --from=builder /go/bin/redli /usr/local/bin/
