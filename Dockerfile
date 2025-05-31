@@ -1,10 +1,9 @@
-FROM golang:1.23-alpine AS builder
+FROM golang:1.24-alpine AS builder
 
 RUN apk add --no-cache git
-RUN go install github.com/IBM-Cloud/redli@v0.7.0
-RUN go install github.com/microsoft/ethr@v1.0.0
+RUN go install github.com/IBM-Cloud/redli@v0.15.0
 
-FROM alpine:3.18
+FROM alpine:latest
 
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk add --no-cache --update --upgrade apk-tools && \
@@ -17,13 +16,12 @@ RUN apk add --no-cache --update --upgrade apk-tools && \
 	mkdir -p /etc/bash_completion.d
 
 COPY --from=builder /go/bin/redli /usr/local/bin/
-COPY --from=builder /go/bin/ethr /usr/local/bin/
 
 WORKDIR /root
 COPY bashrc /root/.bashrc
 
 # asdf
-RUN ASDF=0.11.2 && \
+RUN ASDF=0.17.0 && \
 	curl -sL https://github.com/asdf-vm/asdf/archive/refs/tags/v${ASDF}.tar.gz \
 	| tar xz -C /opt && mv "/opt/asdf-${ASDF}" /opt/asdf
 
